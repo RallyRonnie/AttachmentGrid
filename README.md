@@ -1,3 +1,15 @@
+License
+==============
+
+Copyright (c) Rally Software Development Corp. 2013 Distributed under the MIT License.
+
+Warranty
+==============
+
+Rally-Export-Attachments is available on an as-is basis. Rally Software does not provide any support for this utility.
+
+Introduction
+==============
 AttachmentGrid
 ==============
 
