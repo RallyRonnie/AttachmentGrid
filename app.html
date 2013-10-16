@@ -33,27 +33,28 @@
                  var tableDiv = document.getElementById('aDiv');
 
                  var config = { 'columnKeys'    : ['FormattedID',  'Name', 'ScheduleState',   'Attachments'],
-                                'columnHeaders' : ['FormattedID',  'Name', 'ScheduleState',   'Attachments'],
+                                'columnHeaders' : ['ID',           'Name', 'ScheduleState',   'Attachments'],
                                 'columnWidths'  : ['100px',        '400px', '85px',           '300px']
                                };
                  table = new rally.sdk.ui.Table(config);
                  table.addRows(results.stories);
+                 
+                 myStoryURLbase = rally.sdk.util.Context.getServerInfo().getUrl()+"/#/" + '__PROJECT_OID__' + "/detail/userstory/";
 
                  for (i=0;i<results.stories.length;i++) {
 
                      myStory = results.stories[i];
-                     myStoryURL = rally.sdk.util.Context.getServerInfo().getUrl()+"/#/" + '__PROJECT_OID__' + "/detail/userstory/"+myStory.ObjectID;
+                     myStoryURL = myStoryURLbase + myStory.ObjectID;
                      myStoryHTML = "<div><a href='" + myStoryURL + "' target='_top'> " +
                                  myStory.FormattedID + "</a></div>";
                      myAttachments = results.stories[i].Attachments;
 
                      myAttachmentHTML = "";
+                     myAttachmentURLbase = rally.sdk.util.Context.getServerInfo().getSlmUrl()+"/attachment/";
                      for (j=0;j<myAttachments.length;j++) {
                          myAttachmentOID = myAttachments[j].ObjectID;
                          myAttachmentName = myAttachments[j].Name;
-                         myAttachmentURL = rally.sdk.util.Context.getServerInfo().getSlmUrl()+"/attachment/"+
-                                 myAttachmentOID + "/" + myAttachmentName;
-
+                         myAttachmentURL = myAttachmentURLbase + myAttachmentOID + "/" + myAttachmentName;
                          myAttachmentHTML += "<div><a href='" + myAttachmentURL + "'>" +
                                  myAttachmentName + "</a></div>";
 
