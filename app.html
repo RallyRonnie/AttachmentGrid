@@ -1,12 +1,11 @@
    <html>
         <head>
-           <title>Table</title>
-           <meta name="Name" content="App Example: Stories with Attachments" />
-           <meta name="Version" content="2010.4" />
+           <title>Story Table</title>
+           <meta name="Name" content="Stories with Attachments" />
+           <meta name="Version" content="2014.2" />
            <meta name="Vendor" content="Rally Software" />
-           <script type="text/javascript" src="https://rally1.rallydev.com/apps/1.29/sdk.js"></script>
-           <script type="text/javascript">
-
+       <script type="text/javascript" src="https://rally1.rallydev.com/apps/1.32/sdk.js"></script>
+       <script type="text/javascript">
              var table = null;
 
              function tableExample() {
@@ -16,45 +15,41 @@
                                                                                     '__PROJECT_SCOPING_DOWN__');
               function itemQuery() {
                  var queryObject = {
-                   key: 'stories',
-                   type: 'HierarchicalRequirement',
-                   fetch: 'FormattedID,Name,ScheduleState,Description,Attachments,ObjectID'
-                   // query: '(Name contains "release")'
+                   key: 'theItems',
+                   type: iType,
+                   fetch: 'FormattedID,Name,State,ScheduleState,Description,Attachments,ObjectID',
+                   query: Qvalue
                  };
                  rallyDataSource.findAll(queryObject, populateTable);
               }
-
               function populateTable(results) {
-
                   if (table) {
                       table.destroy();
                   }
-
+                  var col3 = 'ScheduleState';
+                  if (iType == 'task') {
+                  	col3 = 'State';
+                  }
                  var tableDiv = document.getElementById('aDiv');
-
-                 var config = { 'columnKeys'    : ['FormattedID',  'Name', 'ScheduleState',   'Attachments'],
-                                'columnHeaders' : ['ID',           'Name', 'ScheduleState',   'Attachments'],
+                 var config = { 'columnKeys'    : ['FormattedID',  'Name', col3,   'Attachments'],
+                                'columnHeaders' : ['FormattedID',  'Name', col3,   'Attachments'],
                                 'columnWidths'  : ['100px',        '400px', '85px',           '300px']
                                };
                  table = new rally.sdk.ui.Table(config);
-                 table.addRows(results.stories);
-                 
-                 myStoryURLbase = rally.sdk.util.Context.getServerInfo().getUrl()+"/#/" + '__PROJECT_OID__' + "/detail/userstory/";
-
-                 for (i=0;i<results.stories.length;i++) {
-
-                     myStory = results.stories[i];
-                     myStoryURL = myStoryURLbase + myStory.ObjectID;
+                 table.addRows(results.theItems);
+                 for (i=0;i<results.theItems.length;i++) {
+                     myStory = results.theItems[i];
+                     myStoryURL = rally.sdk.util.Context.getServerInfo().getUrl()+"/#/" + '__PROJECT_OID__' + "/detail/"+ iType + "/"+myStory.ObjectID;
                      myStoryHTML = "<div><a href='" + myStoryURL + "' target='_top'> " +
                                  myStory.FormattedID + "</a></div>";
-                     myAttachments = results.stories[i].Attachments;
-
+                     myAttachments = results.theItems[i].Attachments;
                      myAttachmentHTML = "";
-                     myAttachmentURLbase = rally.sdk.util.Context.getServerInfo().getSlmUrl()+"/attachment/";
                      for (j=0;j<myAttachments.length;j++) {
                          myAttachmentOID = myAttachments[j].ObjectID;
                          myAttachmentName = myAttachments[j].Name;
-                         myAttachmentURL = myAttachmentURLbase + myAttachmentOID + "/" + myAttachmentName;
+                         myAttachmentURL = rally.sdk.util.Context.getServerInfo().getSlmUrl()+"/attachment/"+
+                                 myAttachmentOID + "/" + myAttachmentName;
+
                          myAttachmentHTML += "<div><a href='" + myAttachmentURL + "'>" +
                                  myAttachmentName + "</a></div>";
 
@@ -63,15 +58,53 @@
                      table.setCell(i, 0, myStoryHTML);
                  }
                  table.display(tableDiv);
-
               };
               itemQuery();
              }
-
              rally.addOnLoad(tableExample);
-           </script>
-        </head>
-        <body>
-           <div id="aDiv"></div>
-        </body>
-        </html>
+			</script>
+
+			<script type="text/javascript">
+				var Qvalue = '';
+				function textBoxChanged(tb, args) {
+					Qvalue = args.value;
+				}
+				function Qbox() {
+					var config = {
+						label : 'Query String: ',
+						value : '',
+						width: 500,
+						showLabel: true
+					};
+					var textBox = new rally.sdk.ui.basic.TextBox(config);
+					textBox.display("textbox", textBoxChanged);
+				}
+				rally.addOnLoad(Qbox);
+			</script>
+			<script type="text/javascript">
+				var iType = 'hierarchicalrequirement';
+				function typeSelect() {
+				function onChanged(c, args) {
+					iType = args.value;
+				}
+				var config = {
+					radios: [{label:"Stories", value:"hierarchicalrequirement"},{label:"Defects",value:"defect"},{label:"Tasks",value:"task"},{label:"Test Cases",value:"testcase"}],
+					labelPosition: "after",
+					rememberChecked: false,
+					defaultValue: "hierarchicalrequirement", 
+					groupName: "itemTypes"
+				};
+				var radioButtonGroup = new rally.sdk.ui.basic.RadioButtonGroup(config);
+				radioButtonGroup.display("itemGroup", onChanged);
+				}
+				rally.addOnLoad(typeSelect);
+			</script>
+</head>
+	<body>
+		<p><span id="textbox"></span>
+		<button onclick="tableExample()">Refresh</button>
+			<a href="http://www.rallydev.com/help/grid-queries" target="_blank">Query Help</a>
+		<br><div id="itemGroup"></div></p>
+		<div id="aDiv"></div>
+	</body>
+</html>
