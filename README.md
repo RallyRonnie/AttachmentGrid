@@ -23,5 +23,5 @@ TAM, Rally Software
 
 ScreenShot
 ==========
-![Alt text](https://raw.github.com/RallyRonnie/PortfolioValueVsRisk/master/deploy/screenshot.png)
+![Alt text](https://raw.github.com/RallyRonnie/AttachmentGrid/master/screenshot.png)
 
