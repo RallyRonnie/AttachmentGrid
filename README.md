@@ -1,27 +1,13 @@
-License
-==============
-
-Copyright (c) Rally Software Development Corp. 2013 Distributed under the MIT License.
-
-Warranty
-==============
-
-Rally-Export-Attachments is available on an as-is basis. Rally Software does not provide any support for this utility.
-
-Introduction
-==============
 AttachmentGrid
-==============
+=========================
 
-Custom APP to display attachments with link for scoped user stories, tasks, defects, and test cases.
+## Overview
 
-This app creates a table showing FormattedID (as a link to details), Name, State, and 
-attachment list (as a link). It was designed to allow users to easily track attachments.
 
-Ronnie Pinkerton
-TAM, Rally Software
+## License
 
-ScreenShot
-==========
-![Alt text](https://raw.github.com/RallyRonnie/AttachmentGrid/master/screenshot.png)
+AppTemplate is released under the MIT license.  See the file [LICENSE](./LICENSE) for the full text.
 
+##Documentation for SDK
+
+You can find the documentation on our help [site.](https://help.rallydev.com/apps/2.0rc2/doc/)
