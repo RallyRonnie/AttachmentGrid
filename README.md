@@ -2,6 +2,11 @@ AttachmentGrid
 =========================
 
 ## Overview
+This is a Rally SDK 1.x app that generates a grid list of Stories, Test Cases, Defects, or Tasks, a few fields, and their attachments. The ID and attachments are link you can navigate. I will only list items following your project hierarchy selections.
+
+## Screen Shot
+
+![HTML Grid](https://raw.github.com/RallyRonnie/AttachmentGrid/master/screenshot.png)
 
 
 ## License
